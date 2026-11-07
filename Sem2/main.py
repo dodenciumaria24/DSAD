@@ -62,6 +62,13 @@ df_calitate_max.to_csv("data_out/calitate_max_alcool.csv", index=False)
 print("\nRezultate cerinta 7")
 print(df_calitate_max)
 
+# CERINTA 8
+# calculare matrice de corelatie
+cols_r = ["fixed acidity", "volatile acidity", "citric acid", "alcohol", "quality"]
+R=df[cols_r].corr()
+R.to_csv("data_out/R.csv")
+print("\nRezultate cerinta 8")
+print(R)
 
 
 
