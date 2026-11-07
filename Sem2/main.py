@@ -53,6 +53,18 @@ df_aciditate.to_csv("data_out/vinuri_cu_aciditate.csv", index=False)
 print("\nRezultate cerinta 6")
 print(df_aciditate)
 
+# CERINTA 7
+# sortez descrescator df_medii dupa alcohol
+df_medii.sort_values(by="alcohol", ascending=False)
+# pastrerz media maxima si doar col quality
+df_calitate_max=df_medii.sort_values(by="alcohol", ascending=False).head(1)[["quality"]]
+df_calitate_max.to_csv("data_out/calitate_max_alcool.csv", index=False)
+print("\nRezultate cerinta 7")
+print(df_calitate_max)
+
+
+
+
 
 
 
