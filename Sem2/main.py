@@ -45,6 +45,14 @@ df_medii.to_csv("data_out/medii_pe_calitate.csv", index=False)
 print("\nRezultate cerinta 5")
 print(df_medii)
 
+# CERINTA 6
+# adaugarea unei noi coloane
+df["aciditate_totala"]=df["fixed acidity"]+df["volatile acidity"]+df["citric acid"]
+df_aciditate=df[["quality", "alcohol", "pH", "aciditate_totala"]]
+df_aciditate.to_csv("data_out/vinuri_cu_aciditate.csv", index=False)
+print("\nRezultate cerinta 6")
+print(df_aciditate)
+
 
 
 
