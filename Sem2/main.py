@@ -1,5 +1,5 @@
 import pandas as pd
-
+from scipy.spatial.distance import cdist
 from functii_online import nan_replace_df
 
 # CERINTA 1
@@ -83,8 +83,20 @@ df_alc_std.to_csv("data_out/alcohol_standardizat.csv", index=False)
 print("\nRezultate cerinta 9")
 print(df_alc_std)
 
+# CERINTA 10
 
+# primele 20 de randuri si col mentionate
+cols_10=["fixed acidity", "volatile acidity", "alcohol"]
+df_20=df[cols_10].head(20)
+# standardizez col
+df_20_std=(df_20-df_20.mean())/df_20.std(ddof=1)
+matrice_dist = cdist(df_20_std, df_20_std, metric="euclidean")
+df_dist = pd.DataFrame(matrice_dist)
+df_dist.to_csv("data_out/d_euclid_20.csv", index=False)
 
+print("\nRezolvare cerinta 10")
+print(f"Dimensiune matrice distante: {df_dist.shape}")
+print(df_dist.iloc[:5, :5])
 
 
 
