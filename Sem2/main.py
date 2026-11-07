@@ -27,6 +27,14 @@ print(df_calitate_minima.head())
 print(df_calitate_minima.shape)
 
 # CERINTA 4
+# primele 50 de vinuri sortate descrescator in functie de alcolemie
+df_top50=df.sort_values(by="alcohol", ascending=False).head(50)
+df_top50.to_csv("data_out/top50_alcohol.csv", index=False)
+print("Primele 50 de vinuri ordonate descrescator in functie de alcolemie: ")
+print({len(df_top50)})
+print(df_top50.head())
+
+
 
 
 
