@@ -34,6 +34,16 @@ print("Primele 50 de vinuri ordonate descrescator in functie de alcolemie: ")
 print({len(df_top50)})
 print(df_top50.head())
 
+# CERINTA 5
+# vrea media coloanelor alcohol și pH pentru fiecare valoare a coloanei quality
+# grupez datele dupa quality
+df.groupby("quality")
+# ma intereseaza doar pH si alcohol
+df.groupby("quality")[["alcohol", "pH"]].mean()
+df_medii=df.groupby("quality")[["alcohol", "pH"]].mean().reset_index()
+df_medii.to_csv("data_out/medii_pe_calitate.csv", index=False)
+print("\nRezultate cerinta 5")
+print(df_medii)
 
 
 
