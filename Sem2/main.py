@@ -70,6 +70,20 @@ R.to_csv("data_out/R.csv")
 print("\nRezultate cerinta 8")
 print(R)
 
+#CERINTA 9
+# folosim standard deviation pe esantion (implicit ddof=1)
+alcohol_mean=df["alcohol"].mean()
+std_alcohol=df["alcohol"].std(ddof=1)
+# calc val standardizata(scorul Z) pt fiecare vin
+df["alcohol_std"]=(df["alcohol"]-alcohol_mean)/std_alcohol
+# noul df cu cele 2 coloane selectate din df
+df_alc_std=df[["alcohol", "alcohol_std"]]
+# transform df-alc_std in csv
+df_alc_std.to_csv("data_out/alcohol_standardizat.csv", index=False)
+print("\nRezultate cerinta 9")
+print(df_alc_std)
+
+
 
 
 
