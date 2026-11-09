@@ -48,12 +48,18 @@ print(cerinta3.head())
 # cerinta3.name="Pondere"
 # print(cerinta3)
 
-#
-# # Cerinta 4
-# cerinta4 = industria_alim_judet[industrii].apply(lambda x:x.index[x.argmax()],axis=1)
-# cerinta4.name = "Activitate"
-# cerinta4.to_csv("data_out/Cerinta4.csv")
-#
+
+# CERINTA 4
+# afisarea activiatii cu cei mai multi ang la nivel de judet
+industria_alim_loc = industria_alim.merge(populatie, left_index=True, right_index=True)
+# pandas va potrivi randurile din cele 2 tabele folosind indexul
+industria_alim_judet = industria_alim_loc[industrii + ["Populatie", "Judet"]].groupby("Judet").sum()
+cerinta4 = industria_alim_judet[industrii].idxmax(axis=1).to_frame(name="Activitate")
+cerinta4.to_csv("data_out/Cerinta4.csv")
+print("\nRezolvare cerinta 4")
+print(cerinta4.head())
+
+
 # # Cerinta 5
 # coduri_judete= pd.read_csv("data_in/Coduri_Judete.csv",index_col=0)
 # # print(industria_alim_loc)
