@@ -8,7 +8,7 @@ def calcul_medie_ponderata(t:pd.DataFrame):
 
 # CERINTA 1
 industria_alim = pd.read_csv("data_in/IndustriaAlimentara.csv",index_col=0)
-# [1:] - „de la poziția 1 până la final”, sar peste 'Localitate'
+# [1:] -de la poziția 1 până la final, sar peste Localitate
 industrii = list(industria_alim)[1:]
 
 # calc total ang pt fiecare localitate
@@ -40,13 +40,6 @@ cerinta3 = judete.sort_values(by="Pondere", ascending=False)
 cerinta3.to_csv("data_out/Cerinta3.csv", index=False)
 print("\nRezolvare cerinta 3")
 print(cerinta3.head())
-# industria_alim_loc = industria_alim.merge(populatie,left_index=True,right_index=True)
-# # print(industria_alim_loc)
-# industria_alim_judet = industria_alim_loc[industrii+["Populatie","Judet"]].groupby(by="Judet").sum()
-# # print(industria_alim_judet)
-# cerinta3 = industria_alim_judet.apply(func=lambda x:x[industrii].sum()/x["Populatie"],axis=1)
-# cerinta3.name="Pondere"
-# print(cerinta3)
 
 
 # CERINTA 4
@@ -60,22 +53,24 @@ print("\nRezolvare cerinta 4")
 print(cerinta4.head())
 
 
-# # Cerinta 5
-# coduri_judete= pd.read_csv("data_in/Coduri_Judete.csv",index_col=0)
-# # print(industria_alim_loc)
-# industria_alim_loc_ = industria_alim_loc[industrii+["Judet","Populatie"]].merge(
-#     coduri_judete["Regiune"],
-#     left_on="Judet",
-#     right_index=True
-# )
-# # print(industria_alim_loc_)
-# cerinta5 = industria_alim_loc_[industrii+["Populatie","Regiune"]].groupby(by="Regiune").apply(
-#     func=calcul_medie_ponderata,
-#     include_groups=False
-# )
-# # print(cerinta5)
-# cerinta5.round(3).to_csv("data_out/Cerinta5.csv")
-#
+# CERINTA 5
+# nr mediu de angajați pe fiecare activitate la nivel de regiune
+coduri_judete= pd.read_csv("data_in/Coduri_Judete.csv",index_col=0)
+# print(industria_alim_loc)
+industria_alim_loc_ = industria_alim_loc[industrii+["Judet","Populatie"]].merge(
+    coduri_judete["Regiune"],
+    left_on="Judet",
+    right_index=True
+)
+
+cerinta5 = industria_alim_loc_[industrii+["Populatie","Regiune"]].groupby(by="Regiune").apply(
+    func=calcul_medie_ponderata,
+    include_groups=False
+)
+cerinta5.to_csv("data_out/Cerinta5.csv")
+print("\nRezolvare cerinta 5")
+print(cerinta5)
+
 # # Cerinta 6
 # # print(industria_alim_judet)
 # total_national = industria_alim_judet.sum(axis=0)
