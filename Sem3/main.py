@@ -5,7 +5,13 @@ def calcul_medie_ponderata(t:pd.DataFrame):
     x = t.values
     mp = np.average(x[:,:-1],axis=0,weights=x[:,-1])
     return pd.Series(mp,t.columns[:-1])
-
+var=23.4
+print(type(var))
+# keywords:
+# build-in functions,
+# true division(gives a float)
+# floor division(gives a nr that is rounded down to the next integer)
+# Order of operations:PEMDAS
 # CERINTA 1
 industria_alim = pd.read_csv("data_in/IndustriaAlimentara.csv",index_col=0)
 # [1:] -de la poziția 1 până la final, sar peste Localitate
@@ -36,7 +42,7 @@ populatie = pd.read_csv("data_in/PopulatieLocalitati.csv",index_col=0)
 populatie["TotalAngajati"] = angajati
 judete = populatie.groupby("Judet")[["Populatie", "TotalAngajati"]].sum().reset_index()
 judete["Pondere"] = (judete["TotalAngajati"] / judete["Populatie"]) * 100
-cerinta3 = judete.sort_values(by="Pondere", ascending=False)
+cerinta3 = judete.sort_values(by="Pondere", ascending=False).round(3)
 cerinta3.to_csv("data_out/Cerinta3.csv", index=False)
 print("\nRezolvare cerinta 3")
 print(cerinta3.head())
@@ -66,18 +72,22 @@ industria_alim_loc_ = industria_alim_loc[industrii+["Judet","Populatie"]].merge(
 cerinta5 = industria_alim_loc_[industrii+["Populatie","Regiune"]].groupby(by="Regiune").apply(
     func=calcul_medie_ponderata,
     include_groups=False
-)
+).round(3)
 cerinta5.to_csv("data_out/Cerinta5.csv")
 print("\nRezolvare cerinta 5")
 print(cerinta5)
 
-# # Cerinta 6
-# # print(industria_alim_judet)
-# total_national = industria_alim_judet.sum(axis=0)
-# # print(total_national)
-# cerinta6 = industria_alim_judet.apply(
-#     lambda x: (x[industrii]/total_national[industrii]) /(x["Populatie"]/total_national["Populatie"]) ,
-#     axis=1
-# )
-# # print(cerinta6)
-# cerinta6.round(3).to_csv("data_out/Cerinta6.csv")
+
+# CERINTA 6
+# indicii de localizare la nivel de județ pt fiecare activitate
+#ponderea pop fiecărui județ în totalul pop țării
+pondere_populatie = industria_alim_judet["Populatie"] / industria_alim_judet["Populatie"].sum()
+
+#ponderea fiecărui județ in fiecare activitate la nivel național
+pondere_activitate = industria_alim_judet[industrii] / industria_alim_judet[industrii].sum()
+
+#indicele de localizare
+cerinta6 = pondere_activitate.apply(lambda col: col / pondere_populatie, axis=0).round(3)
+cerinta6.to_csv("data_out/Cerinta6.csv")
+print("\nRezolvare cerinta 6")
+print(cerinta6.head())
