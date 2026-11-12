@@ -2,9 +2,16 @@ import numpy as np
 import pandas as pd
 
 def calcul_medie_ponderata(t:pd.DataFrame):
+    """
+    deci orice as scrie aici, va aparea la help(calcul_medie_ponderata)
+    it is called docstring
+    """
     x = t.values
     mp = np.average(x[:,:-1],axis=0,weights=x[:,-1])
     return pd.Series(mp,t.columns[:-1])
+help(calcul_medie_ponderata)
+help(print)
+print(1,2,3,sep='<')
 var=23.4
 print(type(var))
 # keywords:
@@ -12,6 +19,7 @@ print(type(var))
 # true division(gives a float)
 # floor division(gives a nr that is rounded down to the next integer)
 # Order of operations:PEMDAS
+# help(sum)
 # CERINTA 1
 industria_alim = pd.read_csv("data_in/IndustriaAlimentara.csv",index_col=0)
 # [1:] -de la poziția 1 până la final, sar peste Localitate
