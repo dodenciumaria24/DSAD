@@ -26,6 +26,9 @@ out1.to_csv("data_out/Output1.csv", index=False)
 #  rata ocupării populației ca număr de salariați la 1000 locuitori pentru fiecare județ
 print(populatiiLocalitati.head())
 # daca am nevoie de date pt o cerinta de la 2 df, le unesc prin merge() folosind col comuna
+populatiiLocalitati.columns = populatiiLocalitati.columns.str.strip()
+firme.columns = firme.columns.str.strip()
+
 df_unit=pd.merge(populatiiLocalitati,firme,on="Siruta")
 # print(df_unit.head())
 # gruparea dupa var Judet, adunam sal si pop totala pe fiecare judet
@@ -38,5 +41,19 @@ c2=c2.sort_values(by=["Rata ocuparii"],ascending=False)
 out2=c2[["Judet", "Rata ocuparii"]]
 # salvez rezultatu in Output2.csv
 out2.to_csv("data_out/Output2.csv", index=False)
-print(out2.head(20))
+# print(out2.head(20))
+
+# CERINTA 3
+# pentru fiecare județ se determina localitatea cu cel mai mare profit pe locuitor
+c3=df_unit.copy()
+c3["Profit_locuitor"]=c3["TotalProfit"]/c3["Populatie"]
+# gasim pentru fiecare judet indexul randului unde Profit_locuitor e maxim
+indecsi_max=c3.groupby("Judet")["Profit_locuitor"].idxmax()
+# extrag randurile aferenta indexului localitatii care indeplineste conditia
+c3_max=c3.loc[indecsi_max]
+# selectez col cerute
+out3=c3_max[["Judet", "Localitate"]]
+# salvez totul in Output3.csv
+out3.to_csv("data_out/Output3.csv", index=False)
+print(out3.head())
 
