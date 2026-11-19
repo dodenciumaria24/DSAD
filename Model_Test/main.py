@@ -55,5 +55,23 @@ c3_max=c3.loc[indecsi_max]
 out3=c3_max[["Judet", "Localitate"]]
 # salvez totul in Output3.csv
 out3.to_csv("data_out/Output3.csv", index=False)
-print(out3.head())
+
+# CERINTA 4
+# valorile medii ale indicatorilor la nivel de județ (media localităților din județ)
+# creez o lista cu cei 5 indicatori
+indicatori=["NrFirme", "NrSal", "TotalCifraAfaceri", "TotalProfit", "TotalPierdere"]
+c4=df_unit.copy()
+# inmultesc pentru fiecare indicator, valoarea sa cu populatia, pe fiecare localitate
+for i in indicatori:
+    c4[i]=c4[i]*c4["Populatie"]
+# grupez pe judet si insumez produsele obtinute, plus populatia totala a judetului
+c4_grupat=c4.groupby("Judet")[indicatori+["Populatie"]].sum().reset_index()
+
+# impart fiecare suma ponderata la populatia totala a judetului
+for j in indicatori:
+    c4_grupat[j]=c4_grupat[j]/c4_grupat["Populatie"]
+
+out4=c4_grupat[["Judet"]+indicatori].round(3)
+out4.to_csv("data_out/Output4.csv", index=False)
+print(out4.head())
 
