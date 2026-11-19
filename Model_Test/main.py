@@ -88,5 +88,14 @@ filtrare=filtrare[["Siruta", "DenLocalitate", "Profit mediu"]]
 filtrare.to_csv("data_out/Train1.csv", index=False)
 print(filtrare.head())
 
-
-
+# 2
+# Să se calculeze la nivel de județ rata pierderii raportată la cifra de afaceri si diferența netă dintre profit și pierdere
+# Datele vor fi salvate în Train2.csv în ordinea crescătoare a ratei pierderii, afișând Judet, Rata_Pierdere_Procent și Rezultat_Net.
+df_unit2=pd.merge(populatiiLocalitati,firme,on="Siruta")
+c5=df_unit2.groupby("Judet")[["TotalPierdere","TotalProfit", "TotalCifraAfaceri"]].sum().reset_index()
+c5["Rata pierderii"]=(c5["TotalPierdere"]/c5["TotalCifraAfaceri"])*100
+c5["Diferenta neta"]=c5["TotalProfit"]-c5["TotalPierdere"]
+c5=c5.sort_values(by=["Rata pierderii"],ascending=True)
+c5=c5[["Judet", "Rata pierderii", "Diferenta neta"]]
+c5.to_csv("data_out/Train2.csv", index=False)
+print(c5.head(10))
