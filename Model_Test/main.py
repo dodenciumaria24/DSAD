@@ -73,5 +73,20 @@ for j in indicatori:
 
 out4=c4_grupat[["Judet"]+indicatori].round(3)
 out4.to_csv("data_out/Output4.csv", index=False)
-print(out4.head())
+# print(out4.head())
+
+# SUPLEMENTAR
+
+# 1
+# Să se salveze în fișierul Train1.csv profitul mediu pe firmă pentru fiecare localitate unde există cel puțin 10 firme și profitul total este strict pozitiv
+# Datele vor fi sortate descrescător după acest indicator și rotunjite la 2 zecimale.
+filtrare=firme[(firme["NrFirme"]>=10) & (firme["TotalProfit"]>0)].copy()
+print(filtrare.head(20))
+filtrare["Profit mediu"]=(filtrare["TotalProfit"]/filtrare["NrFirme"]).round(2)
+filtrare=filtrare.sort_values(by=["Profit mediu"],ascending=False)
+filtrare=filtrare[["Siruta", "DenLocalitate", "Profit mediu"]]
+filtrare.to_csv("data_out/Train1.csv", index=False)
+print(filtrare.head())
+
+
 
