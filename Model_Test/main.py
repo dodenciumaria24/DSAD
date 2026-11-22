@@ -86,7 +86,7 @@ filtrare["Profit mediu"]=(filtrare["TotalProfit"]/filtrare["NrFirme"]).round(2)
 filtrare=filtrare.sort_values(by=["Profit mediu"],ascending=False)
 filtrare=filtrare[["Siruta", "DenLocalitate", "Profit mediu"]]
 filtrare.to_csv("data_out/Train1.csv", index=False)
-print(filtrare.head())
+# print(filtrare.head())
 
 # 2
 # Să se calculeze la nivel de județ rata pierderii raportată la cifra de afaceri si diferența netă dintre profit și pierdere
@@ -98,4 +98,55 @@ c5["Diferenta neta"]=c5["TotalProfit"]-c5["TotalPierdere"]
 c5=c5.sort_values(by=["Rata pierderii"],ascending=True)
 c5=c5[["Judet", "Rata pierderii", "Diferenta neta"]]
 c5.to_csv("data_out/Train2.csv", index=False)
-print(c5.head(10))
+# print(c5.head(10))
+
+# 3
+# determinarea pt fiecare judet, a localitatii cu densitatea cea mai mica de firme la 1000 loc,luand in calcul NrFirme>0
+filtrare1=df_unit[df_unit["NrFirme"]>0].copy()
+# densitatea pt fiecare localitate
+filtrare1["Firme_la_1000_loc"]=(filtrare1["NrFirme"]/filtrare1["Populatie"])*1000
+# pt fiecare jd, caut indexul randului unde Firme_la_1000_loc-minim
+indecsi_min=filtrare1.groupby("Judet")["Firme_la_1000_loc"].idxmin()
+# extrag randurile din df indecsi_min
+# loc comes fom 'locate'
+filtrare1_min=filtrare1.loc[indecsi_min]
+# sortez alfabetic dupa judet
+filtrare1_min=filtrare1_min.sort_values(by=["Judet"],ascending=True)
+# selectez col cerute
+out5=filtrare1_min[["Judet", "Localitate", "Firme_la_1000_loc"]]
+# salvez in Train3.csv
+out5.to_csv("data_out/Train3.csv", index=False)
+# print(out5.head(10))
+
+# 4
+# Calcularea mediei ponderate la nivel de judet pt indicatorii  TotalCifraAfaceri, TotalProfit, TotalPierdere,
+# folosind ca pondere NrFirme din fiecare loc.Salvez in Train4.csv indicativul de judet, cele 3 medii ponderate, rotunjite la 3 zecimale
+
+# creez lista cu indicatorii
+indicatorii=["TotalCifraAfaceri", "TotalProfit", "TotalPierdere"]
+df=df_unit.copy()
+# inmultesc fiecare indicator cu ponderea
+for i in indicatorii:
+    df[i]=df[i]*df["NrFirme"]
+
+# grupam pe Judet si adunam atat produsele de sus, cat si ponderea (NrFirme), fac 2 sume
+df=df.groupby("Judet")[indicatorii+["NrFirme"]].sum().reset_index()
+for i in indicatorii:
+    df[i]=df[i]/df["NrFirme"]
+
+df=df[["Judet"]+indicatorii].round(3)
+df.to_csv("data_out/Train4.csv", index=False)
+print(df.head(10))
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -2,6 +2,7 @@ import sys
 
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 
 from functii import nan_replace_df, acp, tabelare_varianta, salvare_ndarray
 from grafice import plot_varianta, corelograma, f_scatterplot
@@ -13,8 +14,10 @@ np.set_printoptions(3,sys.maxsize,suppress=True)
 # citirea setului de date
 set_date=pd.read_csv("data_in/Wholesale customers data.csv")
 nume_variabile="Categorii de produse"
+
 # verific daca exista valori lipsa
 nan_replace_df(set_date)
+
 # sar primele 2 col
 variabile_observate=list(set_date)[2:]
 x=set_date[variabile_observate].values
@@ -133,4 +136,6 @@ corelograma(
 # gdf = GeoDataFrame.from_file("Europa/Europa.shp")
 # print(gdf)
 
-# show()
+plt.show()
+#
+# help(plt.show)
