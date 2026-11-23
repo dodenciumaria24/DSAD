@@ -50,9 +50,14 @@ df_pred = pd.DataFrame({
 }, index=X_test.index)
 df_pred.to_csv("data_out/Predictii_test.csv")
 # Accuracy + confusion matrix → Acuratete_lda.csv, CM_lda.csv.
-
+acc = accuracy_score(y_test, y_pred)
+print("Acuratete LDA pe test:", round(acc, 4))
+pd.DataFrame({"Acuratete": [acc]}).to_csv("data_out/Acuratete_lda.csv", index=False)
 # transform() on train → z.csv (Z1, Z2).
-
+Z_train = lda.transform(X_train)
+df_z = pd.DataFrame(Z_train, columns=["Z1", "Z2"], index=X_train.index)
+df_z["class"] = y_train
+df_z.to_csv("data_out/z.csv")
 # Scatter Z1 vs Z2, coloured by class + group centres.
 
 # Distributions of predictors by class (as in f_distributii).
