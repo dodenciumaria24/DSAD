@@ -76,5 +76,16 @@ plt.legend()
 plt.savefig("data_out/scatter_Z1_Z2.png")
 plt.show()
 # Distributions of predictors by class (as in f_distributii).
+fig, axes = plt.subplots(2, 3, figsize=(15, 9))
+axes = axes.flatten()
 
+for idx, col in enumerate(X.columns):
+    sns.kdeplot(data=df, x=col, hue="class", fill=True, common_norm=False, palette="Set1", ax=axes[idx])
+    axes[idx].set_title(f"Distributia: {col}")
+    axes[idx].set_xlabel(col)
+    axes[idx].set_ylabel("Densitate")
+
+plt.tight_layout()
+plt.savefig("data_out/distributii_predictori.png")
+plt.show()
 # Short interpretation: which predictor “looks” most discriminative?
