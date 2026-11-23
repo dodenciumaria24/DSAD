@@ -53,13 +53,28 @@ df_pred.to_csv("data_out/Predictii_test.csv")
 acc = accuracy_score(y_test, y_pred)
 print("Acuratete LDA pe test:", round(acc, 4))
 pd.DataFrame({"Acuratete": [acc]}).to_csv("data_out/Acuratete_lda.csv", index=False)
+
 # transform() on train → z.csv (Z1, Z2).
 Z_train = lda.transform(X_train)
 df_z = pd.DataFrame(Z_train, columns=["Z1", "Z2"], index=X_train.index)
 df_z["class"] = y_train
 df_z.to_csv("data_out/z.csv")
-# Scatter Z1 vs Z2, coloured by class + group centres.
 
+# Scatter Z1 vs Z2, coloured by class + group centres.
+plt.figure(figsize=(9, 6))
+sns.scatterplot(data=df_z, x="Z1", y="Z2", hue="class", palette="Set1", s=60, alpha=0.8)
+
+centre = df_z.groupby("class")[["Z1", "Z2"]].mean()
+plt.scatter(centre["Z1"], centre["Z2"], c="black", marker="X", s=200, label="Centre grupuri")
+for clasa, rand in centre.iterrows():
+    plt.text(rand["Z1"] + 0.1, rand["Z2"] + 0.1, clasa, fontsize=11, fontweight="bold")
+
+plt.axhline(0, color="gray", linestyle="--", linewidth=0.8)
+plt.axvline(0, color="gray", linestyle="--", linewidth=0.8)
+plt.title("Spatiul discriminant (Z1 vs Z2) si centrele claselor")
+plt.legend()
+plt.savefig("data_out/scatter_Z1_Z2.png")
+plt.show()
 # Distributions of predictors by class (as in f_distributii).
 
 # Short interpretation: which predictor “looks” most discriminative?
