@@ -21,12 +21,12 @@ clase_count.to_csv("clase_count.csv", header=["Count"])
 
 # Group means of predictors by class → medii_predictori_pe_clasa.csv.
 medii_clase=df.groupby("class").mean()
-print("\nMedii predictori pe clasa:\n", medii_clase)
+print("\nMedii predictori pe clasa:\n", medii_clase.round(3))
 medii_clase.to_csv("data_out/medii_predictori_pe_clasa.csv")
 
 # One plot (e.g. degree_spondylolisthesis) by class.
 plt.figure(figsize=(8, 5))
-sns.boxplot(data=df, x="class", y="degree_spondylolisthesis", palette="Set2")
+sns.boxplot(data=df, x="class", y="degree_spondylolisthesis", palette="Set2", hue="class")
 plt.title("Distributia degree_spondylolisthesis pe clase")
 plt.xlabel("Clasa (Diagnostic)")
 plt.ylabel("degree_spondylolisthesis")
@@ -43,7 +43,12 @@ print("Clasele modelului (classes_):", lda.classes_)
 print("Probabilitatile a priori (priors_):", lda.priors_)
 
 # Predict on test → Predictii_test.csv.
-
+y_pred = lda.predict(X_test)
+df_pred = pd.DataFrame({
+    "Clasa_Reala": y_test,
+    "Clasa_Prezisa": y_pred
+}, index=X_test.index)
+df_pred.to_csv("data_out/Predictii_test.csv")
 # Accuracy + confusion matrix → Acuratete_lda.csv, CM_lda.csv.
 
 # transform() on train → z.csv (Z1, Z2).
