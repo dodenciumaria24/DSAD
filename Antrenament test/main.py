@@ -4,6 +4,9 @@ import pandas as pd
 import seaborn as sns
 import sklearn as sk
 
+from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
+
 df_miscareNaturala=pd.read_csv("data_in/MiscareaNaturala.csv")
 df_coduriTari=pd.read_csv("data_in/CoduriTariExtins.csv")
 
@@ -26,7 +29,17 @@ lista=['RS', 'FR', 'IM', 'LE', 'LEF', 'LEM', 'MMR']
 df=df.groupby('Continent_Name')[lista].mean()
 medie_mondiala=df_miscareNaturala.RS.mean()
 df=df.loc[(df.RS>medie_mondiala), :]
-df.to_csv("data_out/cerinta2.csv", index=False)
+df.to_csv("data_out/cerinta2.csv")
 print(df.head())
 
 # ACP
+# 1. import instrumente sklearn
+# 2. aleg doar col numerice
+lista_val_numerice=['FR','IM','LE','LEF','LEM','MMR','RS']
+df=df_miscareNaturala.loc[:, lista_val_numerice]
+# Standardizare date
+scaler=StandardScaler()
+df=scaler.fit_transform(df)
+
+
+
