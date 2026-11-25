@@ -53,4 +53,21 @@ etichete_tari=df_miscareNaturala['Three_Letter_Country_Code']
 df_scoruri=pd.DataFrame(scoruri,index=etichete_tari,columns=col_PCA)
 df_scoruri.to_csv("data_out/cerinta3.csv")
 
+# Graficul scorurilor în primele două axe principale.
+# gf scorurilor in primele doua axe principale
+plt.figure(figsize=(10,10))
+# desenez punctele
+plt.scatter(df_scoruri['C1'],df_scoruri['C2'], color='blue')
+# pun codul tarii langa fiecare punct
+for i in range(len(df_scoruri)):
+    plt.text(df_scoruri['C1'].iloc[i], df_scoruri['C2'].iloc[i], df_scoruri.index[i])
+# plasarea axelor
+plt.axhline(0, color='black', linestyle='--')
+plt.axvline(0, color='black', linestyle='--')
+plt.title('Graficul scorurilor în primele două axe principale.')
+plt.xlabel('C1')
+plt.ylabel('C2')
+plt.show()
+
+
 
