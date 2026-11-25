@@ -34,12 +34,16 @@ print(df.head())
 
 # ACP
 # 1. import instrumente sklearn
-# 2. aleg doar col numerice
+# 2. aleg doar indicatorii pt analiza
 lista_val_numerice=['FR','IM','LE','LEF','LEM','MMR','RS']
 df=df_miscareNaturala.loc[:, lista_val_numerice]
 # Standardizare date
 scaler=StandardScaler()
 df=scaler.fit_transform(df)
-
+# Aplicare PCA si afisare variante (B.1)
+pca=PCA()
+pca.fit(df)
+variante=pca.explained_variance_
+print("\nVariantele componentelor principale:\n", variante)
 
 
