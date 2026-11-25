@@ -46,4 +46,11 @@ pca.fit(df)
 variante=pca.explained_variance_
 print("\nVariantele componentelor principale:\n", variante)
 
+# Scorurile asociate instanțelor. Scorurile vor fi salvate în fișierul scoruri.csv.
+scoruri=pca.transform(df).round(3)
+col_PCA=['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7']
+etichete_tari=df_miscareNaturala['Three_Letter_Country_Code']
+df_scoruri=pd.DataFrame(scoruri,index=etichete_tari,columns=col_PCA)
+df_scoruri.to_csv("data_out/cerinta3.csv")
+
 
