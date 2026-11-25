@@ -21,7 +21,9 @@ out1=c1[["Siruta", "DenLocalitate", "Raport intre CA si NrSal"]]
 # salvare in Output1.csv
 out1.to_csv("data_out/Output1.csv", index=False)
 # print(out1.head(20))
-
+print(firme.NrFirme.describe() )
+print(firme.DenLocalitate.unique() )
+print(firme.shape)
 # CERINTA 2
 #  rata ocupării populației ca număr de salariați la 1000 locuitori pentru fiecare județ
 print(populatiiLocalitati.head())

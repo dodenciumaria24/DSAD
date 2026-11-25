@@ -23,7 +23,7 @@ variabile_observate=list(set_date)[2:]
 x=set_date[variabile_observate].values
 # x- matricea datelor standardizate
 # print(x)
-x_,r_v,alpha,a = acp(x)
+x_,r_v,alpha ,a = acp(x)
 # r_v- matricea de corelație dintre cele 6 var
 # alpha: vectorul cu valorile proprii (eigenvalues),
 # care reprezintă varianța explicată de fiecare componentă principală în parte.
